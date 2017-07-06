@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { createContainer } from 'meteor/react-meteor-data';
-import Images from '/imports/api/images';
+import Images from '/imports/api/images/images';
 
 class App extends Component {
   constructor() {
