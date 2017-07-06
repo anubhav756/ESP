@@ -1,3 +1,16 @@
 {
-  "extends": "@meteorjs/eslint-config-meteor"
+  "extends": "@meteorjs/eslint-config-meteor",
+  "globals": {
+    "FlowRouter": false
+  },
+  "rules": {
+    "react/prop-types": [
+      2,
+      {
+        "ignore": [
+          "children"
+        ]
+      }
+    ]
+  }
 }
