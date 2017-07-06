@@ -38,6 +38,10 @@ App.propTypes = {
   images: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
-export default createContainer(() => ({
-  images: Images.find({}, { sort: { url: 1 } }).fetch(),
-}), App);
+export default createContainer(() => {
+  Meteor.subscribe('images');
+
+  return {
+    images: Images.find({}, { sort: { url: 1 } }).fetch(),
+  };
+}, App);
