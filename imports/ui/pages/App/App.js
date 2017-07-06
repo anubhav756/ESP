@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { createContainer } from 'meteor/react-meteor-data';
+import Image from '/imports/ui/components/Image';
+
 import Images from '/imports/api/images/images';
 
 class App extends Component {
@@ -22,10 +24,12 @@ class App extends Component {
     const { images } = this.props;
 
     return (
-      <form onSubmit={this.handleSubmit}>
-        <input type="text" ref={(r) => { this.urlInput = r; }} placeholder="add image url" />
-        <div>{_.join(_.map(images, i => i.url), ', ')}</div>
-      </form>
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <input type="text" ref={(r) => { this.urlInput = r; }} placeholder="add image url" />
+        </form>
+        {_.map(images, i => <Image key={i._id} image={i} />)}
+      </div>
     );
   }
 }
