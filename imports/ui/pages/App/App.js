@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { createContainer } from 'meteor/react-meteor-data';
@@ -17,7 +18,7 @@ class App extends Component {
 
     const url = this.urlInput.value.trim();
 
-    Images.insert({ url });
+    Meteor.call('images.insert', url);
     this.urlInput.value = '';
   }
   render() {

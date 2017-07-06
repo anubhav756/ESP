@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import Images from '/imports/api/images/images';
+import { Meteor } from 'meteor/meteor';
 
 class Image extends Component {
   constructor() {
@@ -12,7 +11,7 @@ class Image extends Component {
   handleDelete() {
     const { image: { _id } } = this.props;
 
-    Images.remove(_id);
+    Meteor.call('images.remove', _id);
   }
   render() {
     const { image: { url } } = this.props;
