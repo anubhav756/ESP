@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { createContainer } from 'meteor/react-meteor-data';
 import Image from '/imports/ui/components/Image';
+import Loader from '/imports/ui/components/Loader';
 
 import Images from '/imports/api/images/images';
 
@@ -22,7 +23,11 @@ class App extends Component {
     this.urlInput.value = '';
   }
   render() {
-    const { images } = this.props;
+    const { images, loggingIn } = this.props;
+
+    if (loggingIn) {
+      return <Loader />;
+    }
 
     return (
       <div>
@@ -36,12 +41,18 @@ class App extends Component {
 }
 App.propTypes = {
   images: PropTypes.arrayOf(PropTypes.object).isRequired,
+  loggingIn: PropTypes.bool.isRequired,
 };
 
 export default createContainer(() => {
+  if (!Meteor.loggingIn() && !Meteor.userId()) {
+    FlowRouter.go('Login');
+  }
+
   Meteor.subscribe('images');
 
   return {
     images: Images.find({}, { sort: { url: 1 } }).fetch(),
+    loggingIn: Meteor.loggingIn(),
   };
 }, App);
