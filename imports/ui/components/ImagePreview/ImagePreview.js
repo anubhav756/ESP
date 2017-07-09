@@ -7,23 +7,25 @@ class ImagePreview extends Component {
 
     this.state = {
       selected: null,
+      waiting: false,
     };
 
     this.handleImageClick = this.handleImageClick.bind(this);
     this.handleNextClick = this.handleNextClick.bind(this);
   }
   handleImageClick(selected) {
-    this.setState({ selected });
+    this.setState({ selected, waiting: false });
   }
   handleNextClick() {
     const { handleNextClick } = this.props;
     const { selected } = this.state;
 
     handleNextClick(selected);
+    this.setState({ waiting: true });
   }
   render() {
     const { primary, secondary } = this.props;
-    const { selected } = this.state;
+    const { selected, waiting } = this.state;
 
     return (
       <div>
@@ -52,7 +54,12 @@ class ImagePreview extends Component {
         </div>
         {
           selected &&
-          <button onClick={this.handleNextClick}>Next</button>
+          <button
+            disabled={waiting}
+            onClick={this.handleNextClick}
+          >
+            {waiting ? 'Waiting...' : 'Next'}
+          </button>
         }
       </div>
     );
