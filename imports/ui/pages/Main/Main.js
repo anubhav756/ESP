@@ -36,7 +36,9 @@ class App extends Component {
     });
   }
   handleNextClick(imageId) {
-    // TODO: submit the selection
+    const { room } = this.props;
+
+    Meteor.call('images.submitAnswer', imageId, room._id, console.log);
   }
   render() {
     const { room, loggingIn } = this.props;

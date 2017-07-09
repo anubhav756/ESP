@@ -27,7 +27,7 @@ Meteor.methods({
       throw new Meteor.Error(401, 'unauthorized');
     }
 
-    const currentRoom = Rooms.find({ _id: roomId }).fetch()[0];
+    const currentRoom = Rooms.findOne({ _id: roomId });
 
     if (!currentRoom) {
       throw new Meteor.Error(404, 'room not found');
@@ -63,5 +63,21 @@ Meteor.methods({
     );
 
     Rooms.update({ _id: currentRoom._id }, { ...currentRoom, primary, secondary });
+  },
+  'images.submitAnswer'(imageId, roomId) {
+    check(imageId, String);
+    check(roomId, String);
+
+    const currentRoom = Rooms.findOne({ _id: roomId });
+    if (!currentRoom) {
+      throw new Meteor.Error(404, 'room not found');
+    }
+
+    const currenImage = Images.findOne({ _id: imageId });
+    if (!currenImage) {
+      throw new Meteor.Error(404, 'image not found');
+    }
+
+    // TODO: compare answers
   },
 });
