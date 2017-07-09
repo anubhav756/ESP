@@ -6,3 +6,6 @@ import '/imports/api/images/server/publications';
 
 // methods
 import '/imports/api/images/methods';
+
+// fixtures
+import './fixtures';
