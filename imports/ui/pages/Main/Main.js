@@ -21,6 +21,7 @@ class App extends Component {
 
     this.handleJoinRoom = this.handleJoinRoom.bind(this);
     this.handleLeaveRoom = this.handleLeaveRoom.bind(this);
+    this.handleNextClick = this.handleNextClick.bind(this);
   }
   handleJoinRoom() {
     this.setState({ joiningRoom: true });
@@ -33,6 +34,9 @@ class App extends Component {
     Meteor.call('rooms.leave', () => {
       this.setState({ joiningRoom: false });
     });
+  }
+  handleNextClick(imageId) {
+    // TODO: submit the selection
   }
   render() {
     const { room, loggingIn } = this.props;
@@ -57,7 +61,11 @@ class App extends Component {
         </button>
         {
           room && room.primary &&
-          <ImagePreview primary={room.primary} secondary={room.secondary} />
+          <ImagePreview
+            primary={room.primary}
+            secondary={room.secondary}
+            handleNextClick={this.handleNextClick}
+          />
         }
       </div>
     );
