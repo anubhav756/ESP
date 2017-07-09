@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import { createContainer } from 'meteor/react-meteor-data';
+import ImagePreview from '/imports/ui/components/ImagePreview';
 import Loader from '/imports/ui/components/Loader';
 
 import Rooms from '/imports/api/rooms/rooms';
@@ -54,6 +55,10 @@ class App extends Component {
         >
           {buttonLabel}
         </button>
+        {
+          room && room.primary &&
+          <ImagePreview primary={room.primary} secondary={room.secondary} />
+        }
       </div>
     );
   }

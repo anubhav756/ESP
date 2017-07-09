@@ -1,14 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function ImagePreview({ url, isThumbnail }) {
+function ImagePreview({ primary, secondary }) {
   return (
-    <img src={url} alt={url} />
+    <div>
+      <img src={primary.url} alt={primary.url} />
+      <div>
+        {secondary.map(({ url }) => (
+          <img
+            src={url}
+            alt={url}
+            key={url}
+            style={{
+              width: 160,
+              marginRight: 20,
+            }}
+          />
+        ))}
+      </div>
+    </div>
   );
 }
 ImagePreview.propTypes = {
-  url: PropTypes.string.isRequired,
-  isThumbnail: PropTypes.bool,
+  primary: PropTypes.shape({
+    url: PropTypes.string.isRequired,
+  }).isRequired,
+  secondary: PropTypes.arrayOf(
+    PropTypes.shape({
+      url: PropTypes.string.isRequired,
+    }).isRequired,
+  ).isRequired,
 };
 ImagePreview.defaultProps = {
   isThumbnail: false,
