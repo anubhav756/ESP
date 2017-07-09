@@ -48,8 +48,8 @@ Meteor.methods({
       return;
     }
 
-    // create a new room if all other rooms are full
-    Rooms.insert({ players: [Meteor.userId()] });
+    // create a new room if all other rooms are full, and create a new question
+    Meteor.call('images.createQuestion', Rooms.insert({ players: [Meteor.userId()] }));
   },
   'rooms.leave'() {
     if (!Meteor.userId()) {
