@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import { createContainer } from 'meteor/react-meteor-data';
@@ -10,29 +10,53 @@ function handleLogout() {
   Meteor.logout();
 }
 
-function handleJoinRoom() {
-  Meteor.call('rooms.join');
-}
+class App extends Component {
+  constructor() {
+    super();
 
-function handleLeaveRoom() {
-  Meteor.call('rooms.leave');
-}
+    this.state = {
+      joiningRoom: false,
+    };
 
-function App({ room, loggingIn }) {
-  if (loggingIn) {
-    return <Loader />;
+    this.handleJoinRoom = this.handleJoinRoom.bind(this);
+    this.handleLeaveRoom = this.handleLeaveRoom.bind(this);
   }
+  handleJoinRoom() {
+    this.setState({ joiningRoom: true });
+    Meteor.call('rooms.join', () => {
+      this.setState({ joiningRoom: false });
+    });
+  }
+  handleLeaveRoom() {
+    this.setState({ joiningRoom: true });
+    Meteor.call('rooms.leave', () => {
+      this.setState({ joiningRoom: false });
+    });
+  }
+  render() {
+    const { room, loggingIn } = this.props;
+    const { joiningRoom } = this.state;
+    let buttonLabel = 'Please wait...';
+    if (!joiningRoom) {
+      buttonLabel = room ? 'Exit game' : 'Start game';
+    }
 
-  return (
-    <div>
-      <button onClick={handleLogout} style={{ float: 'right' }}>Logout</button>
-      {
-        room ?
-          <button onClick={handleLeaveRoom}>Exit game</button> :
-          <button onClick={handleJoinRoom}>Start game</button>
-      }
-    </div>
-  );
+    if (loggingIn) {
+      return <Loader />;
+    }
+
+    return (
+      <div>
+        <button onClick={handleLogout} style={{ float: 'right' }}>Logout</button>
+        <button
+          onClick={room ? this.handleLeaveRoom : this.handleJoinRoom}
+          disabled={joiningRoom}
+        >
+          {buttonLabel}
+        </button>
+      </div>
+    );
+  }
 }
 App.propTypes = {
   room: PropTypes.shape({
