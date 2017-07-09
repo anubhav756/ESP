@@ -8,6 +8,10 @@ import Loader from '/imports/ui/components/Loader';
 
 import Images from '/imports/api/images/images';
 
+function handleLogout() {
+  Meteor.logout();
+}
+
 class App extends Component {
   constructor() {
     super();
@@ -31,6 +35,7 @@ class App extends Component {
 
     return (
       <div>
+        <button onClick={handleLogout} style={{ float: 'right' }}>Logout</button>
         <form onSubmit={this.handleSubmit}>
           <input type="text" ref={(r) => { this.urlInput = r; }} placeholder="add image url" />
         </form>
