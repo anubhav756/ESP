@@ -1,6 +1,6 @@
 import Images from '/imports/api/images/images';
 
-if (Images.find({}).count() === 0) {
+if (Images.find().count() === 0) {
   Images.insert({
     url: 'http://www.st2299.com/data/wallpapers/29/wp-image-58094649.jpg',
     category: 0,
