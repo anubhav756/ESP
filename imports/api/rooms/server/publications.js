@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+
 import Rooms from '/imports/api/rooms/rooms';
 
 Meteor.publish('currentRoom', function () {
@@ -6,5 +7,6 @@ Meteor.publish('currentRoom', function () {
     throw new Meteor.Error(401, 'unauthorized');
   }
 
-  return Rooms.find({ player: this.userId });
+  // publish rooms with players containing the current user
+  return Rooms.find({ players: { $eq: this.userId } });
 });
