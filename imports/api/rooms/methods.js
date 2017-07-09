@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import _ from 'lodash';
 
-import Rooms from './rooms';
+import Rooms, { MAX_ROOM_PLAYERS } from './rooms';
 
 /**
  * Helper method to remove the user from (all) the rooms
@@ -15,6 +15,10 @@ function leaveRoom(userId) {
   if (currentRoom) {
     // remove player from current room
     currentRoom.players = _.filter(currentRoom.players, id => id !== userId);
+
+    // remove current player's answer to the current question
+    delete currentRoom.answers[userId];
+
     if (!currentRoom.players.length) {
       // remove the room if empty
       Rooms.remove({ _id: currentRoom._id });
@@ -36,7 +40,7 @@ Meteor.methods({
 
     const availableRooms = _.filter(
       Rooms.find().fetch(),
-      room => room.players && room.players.length === 1,
+      room => room.players && room.players.length && room.players.length < MAX_ROOM_PLAYERS,
     );
 
     if (availableRooms.length) {

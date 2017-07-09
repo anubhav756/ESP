@@ -38,7 +38,7 @@ class App extends Component {
   handleNextClick(imageId) {
     const { room } = this.props;
 
-    Meteor.call('images.submitAnswer', imageId, room._id, console.log);
+    Meteor.call('images.submitAnswer', imageId, room._id);
   }
   render() {
     const { room, loggingIn } = this.props;
