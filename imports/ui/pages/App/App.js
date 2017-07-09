@@ -6,10 +6,18 @@ import { createContainer } from 'meteor/react-meteor-data';
 import Image from '/imports/ui/components/Image';
 import Loader from '/imports/ui/components/Loader';
 
-import Images from '/imports/api/images/images';
+import Rooms from '/imports/api/rooms/rooms';
 
 function handleLogout() {
   Meteor.logout();
+}
+
+function handleJoinRoom() {
+  Meteor.call('rooms.join');
+}
+
+function handleLeaveRoom() {
+  Meteor.call('rooms.leave');
 }
 
 class App extends Component {
@@ -27,7 +35,8 @@ class App extends Component {
     this.urlInput.value = '';
   }
   render() {
-    const { images, loggingIn } = this.props;
+    const { room, loggingIn } = this.props;
+    console.log('room', room);
 
     if (loggingIn) {
       return <Loader />;
@@ -36,29 +45,37 @@ class App extends Component {
     return (
       <div>
         <button onClick={handleLogout} style={{ float: 'right' }}>Logout</button>
-        <form onSubmit={this.handleSubmit}>
-          <input type="text" ref={(r) => { this.urlInput = r; }} placeholder="add image url" />
-        </form>
-        {_.map(images, i => <Image key={i._id} image={i} />)}
+        {
+          room ?
+            <button onClick={handleLeaveRoom}>Exit game</button> :
+            <button onClick={handleJoinRoom}>Start game</button>
+        }
       </div>
     );
   }
 }
 App.propTypes = {
-  images: PropTypes.arrayOf(PropTypes.object).isRequired,
+  room: PropTypes.shape({
+    player: PropTypes.string.isRequired,
+  }),
   loggingIn: PropTypes.bool.isRequired,
+};
+App.defaultProps = {
+  room: null,
 };
 
 export default createContainer(() => {
+  const visibleRooms = Rooms.find().fetch();
+
   // redirect to login page if not logged in
   if (!Meteor.loggingIn() && !Meteor.userId()) {
     FlowRouter.redirect('/login');
   }
 
-  Meteor.subscribe('images');
+  Meteor.subscribe('currentRoom');
 
   return {
-    images: Images.find({}, { sort: { url: 1 } }).fetch(),
+    room: visibleRooms && visibleRooms.length ? visibleRooms[0] : null,
     loggingIn: Meteor.loggingIn(),
   };
 }, App);
