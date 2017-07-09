@@ -21,19 +21,6 @@ function handleLeaveRoom() {
 }
 
 class App extends Component {
-  constructor() {
-    super();
-
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-  handleSubmit(e) {
-    e.preventDefault();
-
-    const url = this.urlInput.value.trim();
-
-    Meteor.call('images.insert', url);
-    this.urlInput.value = '';
-  }
   render() {
     const { room, loggingIn } = this.props;
     console.log('room', room);
