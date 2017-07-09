@@ -3,6 +3,31 @@ import _ from 'lodash';
 
 import Rooms from './rooms';
 
+/**
+ * Helper method to remove the user from (all) the rooms
+ * This method also removes the room if found empty
+ * @param {String} userId, id of the user leaving room
+ */
+function leaveRoom(userId) {
+  let currentRoom = Rooms.find({ players: { $eq: userId } }).fetch();
+  currentRoom = currentRoom.length ? currentRoom[0] : null;
+
+  if (currentRoom) {
+    // remove player from current room
+    currentRoom.players = _.filter(currentRoom.players, id => id !== userId);
+    if (!currentRoom.players.length) {
+      // remove the room if empty
+      Rooms.remove({ _id: currentRoom._id });
+      return;
+    }
+
+    Rooms.update({ _id: currentRoom._id }, currentRoom);
+  }
+}
+
+// Make user leave room if it logs out or quits browser
+UserPresence.onUserOffline(leaveRoom);
+
 Meteor.methods({
   'rooms.join'() {
     if (!Meteor.userId()) {
@@ -31,19 +56,6 @@ Meteor.methods({
       throw new Meteor.Error(401, 'unauthorized');
     }
 
-    let currentRoom = Rooms.find({ players: { $eq: Meteor.userId() } }).fetch();
-    currentRoom = currentRoom.length ? currentRoom[0] : null;
-
-    if (currentRoom) {
-      // remove player from current room
-      currentRoom.players = _.filter(currentRoom.players, userId => userId !== Meteor.userId());
-      if (!currentRoom.players.length) {
-        // remove the room if empty
-        Rooms.remove({ _id: currentRoom._id });
-        return;
-      }
-
-      Rooms.update({ _id: currentRoom._id }, currentRoom);
-    }
+    leaveRoom(Meteor.userId());
   },
 });
