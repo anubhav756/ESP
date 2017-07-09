@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 import { createContainer } from 'meteor/react-meteor-data';
-import Image from '/imports/ui/components/Image';
 import Loader from '/imports/ui/components/Loader';
 
 import Rooms from '/imports/api/rooms/rooms';
@@ -20,30 +18,25 @@ function handleLeaveRoom() {
   Meteor.call('rooms.leave');
 }
 
-class App extends Component {
-  render() {
-    const { room, loggingIn } = this.props;
-    console.log('room', room);
-
-    if (loggingIn) {
-      return <Loader />;
-    }
-
-    return (
-      <div>
-        <button onClick={handleLogout} style={{ float: 'right' }}>Logout</button>
-        {
-          room ?
-            <button onClick={handleLeaveRoom}>Exit game</button> :
-            <button onClick={handleJoinRoom}>Start game</button>
-        }
-      </div>
-    );
+function App({ room, loggingIn }) {
+  if (loggingIn) {
+    return <Loader />;
   }
+
+  return (
+    <div>
+      <button onClick={handleLogout} style={{ float: 'right' }}>Logout</button>
+      {
+        room ?
+          <button onClick={handleLeaveRoom}>Exit game</button> :
+          <button onClick={handleJoinRoom}>Start game</button>
+      }
+    </div>
+  );
 }
 App.propTypes = {
   room: PropTypes.shape({
-    player: PropTypes.string.isRequired,
+    players: PropTypes.arrayOf(PropTypes.string).isRequired,
   }),
   loggingIn: PropTypes.bool.isRequired,
 };
