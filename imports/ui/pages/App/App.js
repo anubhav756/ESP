@@ -45,8 +45,9 @@ App.propTypes = {
 };
 
 export default createContainer(() => {
+  // redirect to login page if not logged in
   if (!Meteor.loggingIn() && !Meteor.userId()) {
-    FlowRouter.go('Login');
+    FlowRouter.redirect('/login');
   }
 
   Meteor.subscribe('images');

@@ -60,9 +60,9 @@ SignUp.propTypes = {
 };
 
 export default createContainer(() => {
-  // Redirect to app if already logged in
+  // redirect to app if already logged in
   if (!Meteor.loggingIn() && Meteor.userId()) {
-    FlowRouter.go('App');
+    FlowRouter.redirect('/');
   }
 
   return { loggingIn: Meteor.loggingIn() };
