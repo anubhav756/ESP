@@ -5,14 +5,14 @@ import { mount } from 'react-mounter';
 import Default from '/imports/ui/layouts/Default';
 
 // pages
-import App from '/imports/ui/pages/App';
+import Main from '/imports/ui/pages/Main';
 import Login from '/imports/ui/pages/Login';
 import SignUp from '/imports/ui/pages/SignUp';
 
 FlowRouter.route('/', {
-  name: 'App',
+  name: 'Main',
   action() {
-    mount(Default, { children: <App /> });
+    mount(Default, { children: <Main /> });
   },
 });
 
