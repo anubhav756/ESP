@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import { createContainer } from 'meteor/react-meteor-data';
+import { RaisedButton } from 'material-ui';
 import ImagePreview from '/imports/ui/components/ImagePreview';
 import Loader from '/imports/ui/components/Loader';
 
@@ -43,10 +44,7 @@ class App extends Component {
   render() {
     const { room, loggingIn } = this.props;
     const { joiningRoom } = this.state;
-    let buttonLabel = 'Please wait...';
-    if (!joiningRoom) {
-      buttonLabel = room ? 'Exit game' : 'Start game';
-    }
+    const buttonLabel = room ? 'Exit' : 'Start';
 
     if (loggingIn) {
       return <Loader />;
@@ -54,13 +52,18 @@ class App extends Component {
 
     return (
       <div>
-        <button onClick={handleLogout} style={{ float: 'right' }}>Logout</button>
-        <button
-          onClick={room ? this.handleLeaveRoom : this.handleJoinRoom}
+        <RaisedButton
+          secondary
+          label="logout"
+          onTouchTap={handleLogout}
+          style={{ float: 'right' }}
+        />
+        <RaisedButton
+          primary={!room}
+          label={buttonLabel}
           disabled={joiningRoom}
-        >
-          {buttonLabel}
-        </button>
+          onTouchTap={room ? this.handleLeaveRoom : this.handleJoinRoom}
+        />
         {
           room && room.primary &&
           <ImagePreview
