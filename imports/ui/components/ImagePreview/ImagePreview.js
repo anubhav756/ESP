@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import {
+  Paper,
+  FlatButton,
+  FloatingActionButton,
+} from 'material-ui';
+import Done from 'material-ui/svg-icons/action/done';
 
 class ImagePreview extends Component {
   constructor() {
@@ -28,40 +34,46 @@ class ImagePreview extends Component {
     const { selected, waiting } = this.state;
 
     return (
-      <div>
-        <img src={primary.url} alt={primary.url} />
-        <div>
-          {secondary.map(({ _id, url }) => (
-            <a
-              key={_id}
-              role="button"
-              tabIndex="0"
-              onClick={() => this.handleImageClick(_id)}
-              style={{ marginRight: 20 }}
-            >
-              <img
-                src={url}
-                alt={url}
-                width={160}
-                style={
-                  selected === _id ?
-                    { border: '2px solid red', opacity: 0.4 } :
-                    { margin: 2 }
-                }
-              />
-            </a>
-          ))}
-        </div>
+      <center>
         {
           selected &&
-          <button
+          <FloatingActionButton
             disabled={waiting}
             onClick={this.handleNextClick}
+            style={{
+              position: 'fixed',
+              bottom: 30,
+              right: 30,
+            }}
           >
-            {waiting ? 'Waiting...' : 'Next'}
-          </button>
+            <Done />
+          </FloatingActionButton>
         }
-      </div>
+        <Paper zDepth={5} style={{ width: 600, height: 400 }}>
+          <img src={primary.url} alt={primary.url} style={{ borderRadius: 2 }} />
+        </Paper>
+        <div style={{ marginTop: 40, display: 'inline-block' }}>
+          {secondary.map(({ _id, url }) => (
+            <Paper
+              key={_id}
+              zDepth={selected === _id ? 0 : 3}
+              style={{ marginRight: 20, float: 'left', height: 107 }}
+            >
+              <FlatButton
+                onClick={() => this.handleImageClick(_id)}
+                style={{ width: 160, height: 107 }}
+              >
+                <img
+                  src={url}
+                  alt={url}
+                  width={160}
+                  style={{ borderRadius: 2, opacity: selected === _id ? 0.4 : 1 }}
+                />
+              </FlatButton>
+            </Paper>
+          ))}
+        </div>
+      </center>
     );
   }
 }
