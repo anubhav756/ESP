@@ -7,6 +7,8 @@ import {
 } from 'material-ui';
 import Done from 'material-ui/svg-icons/action/done';
 
+import styles from './style';
+
 class ImagePreview extends Component {
   constructor() {
     super();
@@ -40,34 +42,30 @@ class ImagePreview extends Component {
           <FloatingActionButton
             disabled={waiting}
             onClick={this.handleNextClick}
-            style={{
-              position: 'fixed',
-              bottom: 30,
-              right: 30,
-            }}
+            style={styles.nextButton}
           >
             <Done />
           </FloatingActionButton>
         }
-        <Paper zDepth={5} style={{ width: 600, height: 400 }}>
-          <img src={primary.url} alt={primary.url} style={{ borderRadius: 2 }} />
+        <Paper zDepth={5} style={styles.primaryContainer}>
+          <img src={primary.url} alt={primary.url} style={styles.primary} />
         </Paper>
-        <div style={{ marginTop: 40, display: 'inline-block' }}>
+        <div style={styles.secondaryWrapper}>
           {secondary.map(({ _id, url }) => (
             <Paper
               key={_id}
               zDepth={selected === _id ? 0 : 3}
-              style={{ marginRight: 20, float: 'left', height: 107 }}
+              style={styles.secondaryContainer}
             >
               <FlatButton
                 onClick={() => this.handleImageClick(_id)}
-                style={{ width: 160, height: 107 }}
+                style={styles.secondaryButton}
               >
                 <img
                   src={url}
                   alt={url}
                   width={160}
-                  style={{ borderRadius: 2, opacity: selected === _id ? 0.4 : 1 }}
+                  style={styles.secondary(selected === _id)}
                 />
               </FlatButton>
             </Paper>
