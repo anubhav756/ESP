@@ -21,3 +21,4 @@ react-meteor-data
 accounts-password
 kadira:flow-router
 socialize:user-presence
+aldeed:collection2-core

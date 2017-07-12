@@ -2,7 +2,8 @@
   "extends": "@meteorjs/eslint-config-meteor",
   "globals": {
     "FlowRouter": false,
-    "UserPresence": false
+    "UserPresence": false,
+    "SimpleSchema": false
   },
   "rules": {
     "react/prop-types": [
