@@ -1,14 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { CircularProgress } from 'material-ui';
+import styles from './styles';
 
-function Loader({ message }) {
-  return <div>{message}</div>;
+function Loader() {
+  return <center style={styles.container}><CircularProgress /></center>;
 }
-Loader.propTypes = {
-  message: PropTypes.string,
-};
-Loader.defaultProps = {
-  message: 'Logging in...',
-};
 
 export default Loader;

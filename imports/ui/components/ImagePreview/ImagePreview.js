@@ -7,7 +7,7 @@ import {
 } from 'material-ui';
 import Done from 'material-ui/svg-icons/action/done';
 
-import styles from './style.js';
+import styles from './style';
 
 class ImagePreview extends Component {
   constructor() {

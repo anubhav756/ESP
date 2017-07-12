@@ -7,6 +7,7 @@ export default {
   primaryContainer: {
     width: 600,
     height: 400,
+    marginTop: 20,
   },
   primary: {
     borderRadius: 2,
