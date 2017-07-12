@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 import { createContainer } from 'meteor/react-meteor-data';
+import {
+  TextField,
+  RaisedButton,
+} from 'material-ui';
 import Loader from '/imports/ui/components/Loader';
 
 class SignUp extends Component {
@@ -10,32 +14,63 @@ class SignUp extends Component {
     super();
 
     this.state = {
-      error: '',
+      username: '',
+      password: '',
+      cPassword: '',
+      errors: {},
     };
 
+    this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleCPasswordChange = this.handleCPasswordChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleUsernameChange(e) {
+    this.setState({ username: e.target.value });
+  }
+  handlePasswordChange(e) {
+    this.setState({ password: e.target.value });
+  }
+  handleCPasswordChange(e) {
+    this.setState({ cPassword: e.target.value });
   }
   handleSubmit(e) {
     e.preventDefault();
-    const username = this.username.value.trim();
-    const password = this.password.value.trim();
-    const cPassword = this.cPassword.value.trim();
+
+    let { username, password, cPassword } = this.state;
+
+    username = username.trim();
+    password = password.trim();
+    cPassword = cPassword.trim();
 
     if (!username || !password || !cPassword) {
-      this.setState({ error: 'Please provide all the details' });
+      this.setState({
+        errors: {
+          username: !username ? 'Required' : null,
+          password: !password ? 'Required' : null,
+          cPassword: !cPassword ? 'Required' : null,
+        },
+      });
       return;
     }
 
     if (password !== cPassword) {
-      this.setState({ error: 'Passwords do not match' });
+      this.setState({
+        errors: {
+          cPassword: 'Passwords do not match',
+        },
+      });
       return;
     }
 
-    Accounts.createUser({ username, password }, _error => this.setState({ error: _error ? _error.reason : '' }));
+    Accounts.createUser(
+      { username, password },
+      _error => this.setState({ errors: { username: _error ? _error.reason : null } }),
+    );
   }
   render() {
     const { loggingIn } = this.props;
-    const { error } = this.state;
+    const { errors } = this.state;
 
     if (loggingIn) {
       return <Loader />;
@@ -44,13 +79,31 @@ class SignUp extends Component {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          <div>Username: <input ref={(i) => { this.username = i; }} /></div>
-          <div>Password: <input ref={(i) => { this.password = i; }} type="password" /></div>
-          <div>Confirm Password: <input ref={(i) => { this.cPassword = i; }} type="password" /></div>
-          <button type="submit">Sign up</button>
+          <div>
+            <TextField
+              floatingLabelText="Username"
+              errorText={errors.username}
+              onChange={this.handleUsernameChange}
+            />
+          </div>
+          <div>
+            <TextField
+              type="password"
+              floatingLabelText="Password"
+              errorText={errors.password}
+              onChange={this.handlePasswordChange}
+            />
+          </div>
+          <div>
+            <TextField
+              type="password"
+              floatingLabelText="Confirm Password"
+              errorText={errors.cPassword}
+              onChange={this.handleCPasswordChange}
+            />
+          </div>
+          <RaisedButton primary type="submit" label="Sign up" /> or <a href="/login">Login</a>
         </form>
-        <div style={{ color: 'red' }}>{error}</div>
-        <a href="/login">Login</a>
       </div>
     );
   }
