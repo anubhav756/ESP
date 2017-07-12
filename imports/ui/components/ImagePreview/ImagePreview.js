@@ -57,7 +57,7 @@ class ImagePreview extends Component {
             <Paper
               key={_id}
               zDepth={selected === _id ? 0 : 3}
-              style={{ marginRight: 20, float: 'left', height: 107 }}
+              style={{ marginRight: 20, marginTop: 20, float: 'left', height: 107 }}
             >
               <FlatButton
                 onClick={() => this.handleImageClick(_id)}
