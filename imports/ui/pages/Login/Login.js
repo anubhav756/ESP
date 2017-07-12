@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
+import {
+  TextField,
+  RaisedButton,
+} from 'material-ui';
 import Loader from '/imports/ui/components/Loader';
 
 class Login extends Component {
@@ -9,26 +13,48 @@ class Login extends Component {
     super();
 
     this.state = {
-      error: '',
+      username: '',
+      password: '',
+      errors: {},
     };
 
+    this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleUsernameChange(e) {
+    this.setState({ username: e.target.value });
+  }
+  handlePasswordChange(e) {
+    this.setState({ password: e.target.value });
   }
   handleSubmit(e) {
     e.preventDefault();
-    const username = this.username.value.trim();
-    const password = this.password.value.trim();
+
+    let { username, password } = this.state;
+
+    username = username.trim();
+    password = password.trim();
 
     if (!username || !password) {
-      this.setState({ error: 'Please provide all the details' });
+      this.setState({
+        errors: {
+          username: !username ? 'Required' : null,
+          password: !password ? 'Required' : null,
+        },
+      });
       return;
     }
 
-    Meteor.loginWithPassword(username, password, _error => this.setState({ error: _error ? _error.reason : '' }));
+    Meteor.loginWithPassword(
+      username,
+      password,
+      _error => this.setState({ errors: { username: _error ? _error.reason : null } }),
+    );
   }
   render() {
     const { loggingIn } = this.props;
-    const { error } = this.state;
+    const { errors } = this.state;
 
     if (loggingIn) {
       return <Loader />;
@@ -37,12 +63,23 @@ class Login extends Component {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          <div>Username: <input ref={(i) => { this.username = i; }} /></div>
-          <div>Password: <input ref={(i) => { this.password = i; }} type="password" /></div>
-          <button type="submit">Login</button>
+          <div>
+            <TextField
+              floatingLabelText="Username"
+              errorText={errors.username}
+              onChange={this.handleUsernameChange}
+            />
+          </div>
+          <div>
+            <TextField
+              type="password"
+              floatingLabelText="Password"
+              errorText={errors.password}
+              onChange={this.handlePasswordChange}
+            />
+          </div>
+          <RaisedButton primary type="submit" label="Login" /> or <a href="/signup">Sign up</a>
         </form>
-        <div style={{ color: 'red' }}>{error}</div>
-        <a href="/signup">Sign up</a>
       </div>
     );
   }
