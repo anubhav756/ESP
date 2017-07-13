@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
+import { Meteor } from 'meteor/meteor';
+import _ from 'lodash';
 import {
   Paper,
   FlatButton,
@@ -39,8 +40,13 @@ class ImagePreview extends Component {
     this.setState({ waiting: true });
   }
   render() {
-    const { primary, secondary } = this.props;
+    const { primary, secondary, answers } = this.props;
     const { selected, waiting } = this.state;
+    const otherAnswer = _.reduce(
+      answers,
+      (result, value, key) => (key !== Meteor.userId() ? value : result),
+      null,
+    );
 
     return (
       <center>
@@ -78,6 +84,7 @@ class ImagePreview extends Component {
                   }}
                 />
               </FlatButton>
+              {otherAnswer === _id && <div style={styles.otherAnswer} />}
             </Paper>
           ))}
         </div>
@@ -85,6 +92,7 @@ class ImagePreview extends Component {
     );
   }
 }
+/* eslint react/forbid-prop-types: 0 */
 ImagePreview.propTypes = {
   primary: PropTypes.shape({
     url: PropTypes.string.isRequired,
@@ -94,7 +102,7 @@ ImagePreview.propTypes = {
       url: PropTypes.string.isRequired,
     }).isRequired,
   ).isRequired,
-  answers: PropTypes.any.isRequired,
+  answers: PropTypes.object.isRequired,
   handleNextClick: PropTypes.func.isRequired,
 };
 ImagePreview.defaultProps = {

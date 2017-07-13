@@ -17,6 +17,7 @@ export default {
     display: 'inline-block',
   },
   secondaryContainer: {
+    position: 'relative',
     marginRight: 20,
     marginTop: 20,
     float: 'left',
@@ -31,5 +32,15 @@ export default {
   },
   secondarySelected: {
     opacity: 0.4,
+  },
+  otherAnswer: {
+    position: 'absolute',
+    zIndex: 1,
+    bottom: 0,
+    height: 8,
+    width: '100%',
+    background: 'rgb(255, 64, 129)',
+    borderBottomLeftRadius: 2,
+    borderBottomRightRadius: 2,
   },
 };
