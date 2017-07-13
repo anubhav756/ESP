@@ -7,7 +7,6 @@ import {
   FloatingActionButton,
 } from 'material-ui';
 import Done from 'material-ui/svg-icons/action/done';
-
 import styles from './styles';
 
 class ImagePreview extends Component {

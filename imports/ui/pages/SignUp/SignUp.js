@@ -8,7 +8,6 @@ import {
   RaisedButton,
 } from 'material-ui';
 import Loader from '/imports/ui/components/Loader';
-
 import styles from './styles';
 
 class SignUp extends Component {
