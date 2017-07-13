@@ -8,7 +8,7 @@ import {
 } from 'material-ui';
 import Done from 'material-ui/svg-icons/action/done';
 
-import styles from './style';
+import styles from './styles';
 
 class ImagePreview extends Component {
   constructor() {
@@ -73,7 +73,10 @@ class ImagePreview extends Component {
                   src={url}
                   alt={url}
                   width={160}
-                  style={styles.secondary(selected === _id)}
+                  style={{
+                    ...styles.secondary,
+                    ...(selected === _id && styles.secondarySelected),
+                  }}
                 />
               </FlatButton>
             </Paper>
