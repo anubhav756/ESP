@@ -1,9 +1,13 @@
 {
   "extends": "@meteorjs/eslint-config-meteor",
+  "env": {
+    "mocha": true
+  },
   "globals": {
     "FlowRouter": false,
     "UserPresence": false,
-    "SimpleSchema": false
+    "SimpleSchema": false,
+    "Factory": false
   },
   "rules": {
     "react/prop-types": [
