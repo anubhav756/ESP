@@ -2,7 +2,7 @@ import Images from '/imports/api/images/images';
 
 if (Images.find().count() === 0) {
   Images.insert({
-    url: 'http://www.st2299.com/data/wallpapers/29/wp-image-58094649.jpg',
+    url: 'http://condesan.org/mtnforum/sites/default/files/styles/w600/public/news/images/pictures/mount-elbrus.jpg',
     tags: ['mountains'],
   });
   Images.insert({
