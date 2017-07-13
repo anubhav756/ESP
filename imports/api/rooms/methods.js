@@ -16,8 +16,10 @@ function leaveRoom(userId) {
     // remove player from current room
     currentRoom.players = _.filter(currentRoom.players, id => id !== userId);
 
-    // remove current player's answer to the current question
-    delete currentRoom.answers[userId];
+    // remove current player's answer to the current question (if any)
+    if (currentRoom && currentRoom.answers) {
+      delete currentRoom.answers[userId];
+    }
 
     if (!currentRoom.players.length) {
       // remove the room if empty
@@ -25,7 +27,7 @@ function leaveRoom(userId) {
       return;
     }
 
-    Rooms.update({ _id: currentRoom._id }, currentRoom);
+    Rooms.update({ _id: currentRoom._id }, { $set: currentRoom });
   }
 }
 
@@ -48,7 +50,7 @@ Meteor.methods({
 
       // add the user into a random room from rooms with exactly 1 player (if available)
       currentRoom.players.push(Meteor.userId());
-      Rooms.update({ _id: currentRoom._id }, currentRoom);
+      Rooms.update({ _id: currentRoom._id }, { $set: currentRoom });
       return;
     }
 

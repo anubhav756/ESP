@@ -8,6 +8,8 @@ import {
 } from 'material-ui';
 import Loader from '/imports/ui/components/Loader';
 
+import styles from './styles';
+
 class Login extends Component {
   constructor() {
     super();
@@ -61,7 +63,7 @@ class Login extends Component {
     }
 
     return (
-      <div>
+      <center style={styles.container}>
         <form onSubmit={this.handleSubmit}>
           <div>
             <TextField
@@ -78,9 +80,10 @@ class Login extends Component {
               onChange={this.handlePasswordChange}
             />
           </div>
-          <RaisedButton primary type="submit" label="Login" /> or <a href="/signup">Sign up</a>
+          <RaisedButton primary type="submit" label="Login" style={styles.submit} />
+          {' or '}<a href="/signup" style={styles.link}>Sign up</a>
         </form>
-      </div>
+      </center>
     );
   }
 }

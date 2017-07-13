@@ -63,7 +63,10 @@ Meteor.methods({
       }),
     );
 
-    Rooms.update({ _id: currentRoom._id }, { ...currentRoom, primary, secondary, answers });
+    Rooms.update(
+      { _id: currentRoom._id },
+      { $set: { ...currentRoom, primary, secondary, answers } },
+    );
   },
   'images.submitAnswer'(imageId, roomId) {
     check(imageId, String);
@@ -98,6 +101,6 @@ Meteor.methods({
       return;
     }
 
-    Rooms.update({ _id: currentRoom._id }, currentRoom);
+    Rooms.update({ _id: currentRoom._id }, { $set: currentRoom });
   },
 });
