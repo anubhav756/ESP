@@ -26,8 +26,10 @@ export default {
     width: 160,
     height: 107,
   },
-  secondary: selected => ({
+  secondary: {
     borderRadius: 2,
-    opacity: selected ? 0.4 : 1,
-  }),
+  },
+  secondarySelected: {
+    opacity: 0.4,
+  },
 };

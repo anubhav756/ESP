@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Meteor } from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import {
   Paper,
@@ -20,6 +21,13 @@ class ImagePreview extends Component {
 
     this.handleImageClick = this.handleImageClick.bind(this);
     this.handleNextClick = this.handleNextClick.bind(this);
+  }
+  componentWillReceiveProps({ answers: { [Meteor.userId()]: correctSelected } }) {
+    const { selected } = this.state;
+
+    if (correctSelected !== selected) {
+      this.setState({ selected: correctSelected });
+    }
   }
   handleImageClick(selected) {
     this.setState({ selected, waiting: false });
@@ -84,6 +92,7 @@ ImagePreview.propTypes = {
       url: PropTypes.string.isRequired,
     }).isRequired,
   ).isRequired,
+  answers: PropTypes.any.isRequired,
   handleNextClick: PropTypes.func.isRequired,
 };
 ImagePreview.defaultProps = {

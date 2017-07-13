@@ -69,6 +69,7 @@ class App extends Component {
           <ImagePreview
             primary={room.primary}
             secondary={room.secondary}
+            answers={room.answers}
             handleNextClick={this.handleNextClick}
           />
         }
