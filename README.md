@@ -13,3 +13,10 @@ To run the project
 `npm start`
 
 In your browser, go to [http://127.0.0.1:3000/](http://127.0.0.1:3000/)
+
+## Test cases
+You can run the test cases by running
+
+`npm test`
+
+In your browser, go to [http://127.0.0.1:3100/](http://127.0.0.1:3100/)
