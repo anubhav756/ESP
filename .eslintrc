@@ -6,7 +6,8 @@
   "globals": {
     "FlowRouter": false,
     "UserPresence": false,
-    "SimpleSchema": false
+    "SimpleSchema": false,
+    "Factory": false
   },
   "rules": {
     "react/prop-types": [
