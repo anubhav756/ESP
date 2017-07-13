@@ -17,7 +17,7 @@ function leaveRoom(userId) {
     currentRoom.players = _.filter(currentRoom.players, id => id !== userId);
 
     // remove current player's answer to the current question (if any)
-    if (currentRoom && currentRoom.answers) {
+    if (currentRoom.answers) {
       delete currentRoom.answers[userId];
     }
 
@@ -31,8 +31,9 @@ function leaveRoom(userId) {
   }
 }
 
-// Make user leave room if it logs out or quits browser
+// Kick user from room if it logs out or is sitting idle
 UserPresence.onUserOffline(leaveRoom);
+UserPresence.onUserIdle(leaveRoom);
 
 Meteor.methods({
   'rooms.join'() {
