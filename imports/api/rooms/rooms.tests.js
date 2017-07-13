@@ -4,14 +4,14 @@ import { Random } from 'meteor/random';
 import _ from 'lodash';
 import Rooms from './rooms';
 
-if (Meteor.isServer) {
-  Factory.define('room', Rooms, {
-    players: () => [Random.id(), Random.id()],
-    primary: () => Factory.create('image'),
-    secondary: () => _.map(Array(5), () => Factory.create('image')),
-    answers: () => ({ [Random.id()]: Random.id() }),
-  });
+Factory.define('room', Rooms, {
+  players: () => [Random.id(), Random.id()],
+  primary: () => Factory.create('image'),
+  secondary: () => _.map(Array(5), () => Factory.create('image')),
+  answers: () => ({ [Random.id()]: Random.id() }),
+});
 
+if (Meteor.isServer) {
   describe('Rooms collection', function () {
     beforeEach(function (done) {
       Meteor.call('test.resetDatabase', done);
