@@ -1,4 +1,3 @@
-import { Mongo } from 'meteor/mongo';
 import Images from '/imports/api/images/images';
 
 const Rooms = new Mongo.Collection('rooms');

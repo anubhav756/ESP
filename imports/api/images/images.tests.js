@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor';
 import { assert } from 'meteor/practicalmeteor:chai';
 import faker from 'faker';
 import Images from './images';

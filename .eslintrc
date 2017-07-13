@@ -4,6 +4,8 @@
     "mocha": true
   },
   "globals": {
+    "Meteor": false,
+    "Mongo": false,
     "FlowRouter": false,
     "UserPresence": false,
     "SimpleSchema": false,

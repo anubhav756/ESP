@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor';
 import _ from 'lodash';
 
 import Rooms, { MAX_ROOM_PLAYERS } from './rooms';

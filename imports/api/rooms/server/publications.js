@@ -1,5 +1,3 @@
-import { Meteor } from 'meteor/meteor';
-
 import Rooms from '/imports/api/rooms/rooms';
 
 Meteor.publish('currentRoom', function () {

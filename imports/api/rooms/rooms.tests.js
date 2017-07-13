@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor';
 import { assert } from 'meteor/practicalmeteor:chai';
 import { Random } from 'meteor/random';
 import _ from 'lodash';
