@@ -33,7 +33,7 @@ export default {
   secondarySelected: {
     opacity: 0.4,
   },
-  otherAnswer: {
+  otherSelected: {
     position: 'absolute',
     zIndex: 1,
     bottom: 0,

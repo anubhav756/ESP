@@ -41,7 +41,7 @@ class ImagePreview extends Component {
   render() {
     const { primary, secondary, answers } = this.props;
     const { selected, waiting } = this.state;
-    const otherAnswer = _.reduce(
+    const otherSelected = _.reduce(
       answers,
       (result, value, key) => (key !== Meteor.userId() ? value : result),
       null,
@@ -83,7 +83,7 @@ class ImagePreview extends Component {
                   }}
                 />
               </FlatButton>
-              {otherAnswer === _id && <div style={styles.otherAnswer} />}
+              {selected && otherSelected === _id && <div style={styles.otherSelected} />}
             </Paper>
           ))}
         </div>
