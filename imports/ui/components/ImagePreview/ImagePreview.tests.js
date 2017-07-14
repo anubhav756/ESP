@@ -22,7 +22,7 @@ if (Meteor.isClient) {
       assert.equal(
         JSON.stringify(tree),
         JSON.stringify(snapshot),
-        'Snapshots do not match (did you forget to update snapshot)'
+        'Snapshots do not match (did you forget to update snapshot)',
       );
     });
   });
