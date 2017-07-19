@@ -88,7 +88,7 @@ Meteor.methods({
     currentRoom.answers[Meteor.userId()] = imageId;
 
     // if all players in current room agree on same answer,
-    // then proceed to the next question
+    // then assign points to them based on concensus
     if (
       _.reduce(
         currentRoom.answers,
@@ -96,10 +96,16 @@ Meteor.methods({
         0,
       ) === MAX_ROOM_PLAYERS
     ) {
-      Meteor.call('images.createQuestion', roomId);
-      return;
+      // TODO
     }
 
+    // remove current player from this room
+    currentRoom.players = _.filter(currentRoom.players, o => o !== Meteor.userId());
+
+    // update room in db
     Rooms.update({ _id: currentRoom._id }, { $set: currentRoom });
+
+    // join/create a room, other than the current room
+    Meteor.call('rooms.join');
   },
 });

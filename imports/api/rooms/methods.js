@@ -42,7 +42,10 @@ Meteor.methods({
 
     const availableRooms = _.filter(
       Rooms.find().fetch(),
-      room => room.players && room.players.length && room.players.length < MAX_ROOM_PLAYERS,
+      room => room.players &&
+        room.players.length &&
+        room.players.length < MAX_ROOM_PLAYERS &&
+        _.indexOf(_.keys(room.answers), Meteor.userId()) === -1,
     );
 
     if (availableRooms.length) {
