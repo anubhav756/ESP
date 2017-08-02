@@ -87,7 +87,7 @@ Meteor.methods({
     // upsert current user's answer
     currentRoom.answers[Meteor.userId()] = imageId;
 
-    // if all players in current room agree on same answer,
+    // if maximum players in current room have answered,
     // then assign points to them based on concensus
     if (
       _.reduce(
@@ -97,6 +97,7 @@ Meteor.methods({
       ) === MAX_ROOM_PLAYERS
     ) {
       // TODO
+      console.log('assign points based on', currentRoom.answers);
     }
 
     // remove current player from this room
